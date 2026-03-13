@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparatif programmes — Municipales Toulouse 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pi: #c0392b;
+    --br: #2473aa;
+    --mo: #1e8449;
+    --pi-light: #fdecea;
+    --br-light: #eaf4fb;
+    --mo-light: #eafaf1;
+    --bg: #ffffff;
+    --bg2: #f8f9fa;
+    --bg3: #f1f3f4;
+    --text: #1a1a1a;
+    --text2: #555;
+    --text3: #888;
+    --border: #e0e0e0;
+    --border2: #ccc;
+    --radius: 8px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --bg2: #232323;
+      --bg3: #2a2a2a;
+      --text: #e8e8e8;
+      --text2: #aaa;
+      --text3: #777;
+      --border: #333;
+      --border2: #444;
+      --pi-light: #3a1210;
+      --br-light: #0f2030;
+      --mo-light: #0c2a18;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  .page { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* Header */
+  .page-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+  .page-header h1 { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .page-header p { color: var(--text2); font-size: 13px; }
+  .page-header .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+  .meta-item { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 600; border: 1px solid; }
+  .meta-pi { color: var(--pi); background: var(--pi-light); border-color: var(--pi); }
+  .meta-br { color: var(--br); background: var(--br-light); border-color: var(--br); }
+  .meta-mo { color: var(--mo); background: var(--mo-light); border-color: var(--mo); }
+
+  /* Navigation */
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; position: sticky; top: 0; background: var(--bg); padding: 0.75rem 0; z-index: 10; border-bottom: 1px solid var(--border); }
+  .nav button {
+    font-size: 12px; font-weight: 500; padding: 5px 14px;
+    border: 1px solid var(--border2); border-radius: 20px;
+    background: transparent; color: var(--text2); cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .nav button:hover { background: var(--bg2); color: var(--text); }
+  .nav button.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) {
+    .nav button.active { background: #e8e8e8; color: #1a1a1a; border-color: #e8e8e8; }
+  }
+
+  /* Section */
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 1rem; padding: 0.5rem 0; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  thead { position: sticky; top: 52px; z-index: 5; }
+
+  th {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 12px 14px; text-align: left; background: var(--bg2);
+    border-bottom: 2px solid var(--border); white-space: nowrap;
+  }
+  th.h-topic { color: var(--text3); width: 16%; }
+  th.h-pi { color: var(--pi); width: 28%; }
+  th.h-br { color: var(--br); width: 28%; }
+  th.h-mo { color: var(--mo); width: 28%; }
+
+  td {
+    padding: 10px 14px; vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; line-height: 1.55; color: var(--text2);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg2); }
+  tr:hover td.topic-cell { background: var(--bg3); }
+
+  td.topic-cell {
+    font-weight: 600; font-size: 12px; color: var(--text);
+    background: var(--bg2); border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td.pi-cell { border-left: 3px solid transparent; }
+  td.br-cell { border-left: 3px solid transparent; }
+  td.mo-cell { border-left: 3px solid transparent; }
+  tr:hover td.pi-cell { border-left-color: var(--pi); }
+  tr:hover td.br-cell { border-left-color: var(--br); }
+  tr:hover td.mo-cell { border-left-color: var(--mo); }
+
+  /* Tags */
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 1px 7px; border-radius: 12px; margin-bottom: 4px;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .tag-pi { background: var(--pi-light); color: var(--pi); }
+  .tag-br { background: var(--br-light); color: var(--br); }
+  .tag-mo { background: var(--mo-light); color: var(--mo); }
+  .tag-neutral { background: var(--bg3); color: var(--text3); }
+
+  /* Misc */
+  .absent { font-style: italic; color: var(--text3); font-size: 12px; }
+  strong { font-weight: 600; color: var(--text); }
+  ul { padding-left: 16px; }
+  ul li { margin-bottom: 2px; }
+  br + br { display: none; }
+
+  /* Footer */
+  .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 12px; color: var(--text3); }
+  .footer a { color: var(--text3); }
+
+  /* Print */
+  @media print {
+    .nav { display: none; }
+    .section { display: block !important; }
+    .section-title { break-before: page; }
+    body { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="page-header">
+  <h1>Comparatif des programmes — Municipales Toulouse 2026</h1>
+  <p>Analyse thème par thème des propositions des trois principaux candidats.</p>
+  <div class="meta">
+    <span class="meta-item meta-pi">François Piquemal — LFI / Gauche radicale</span>
+    <span class="meta-item meta-br">François Briançon — Gauche unie (PS, Verts…)</span>
+    <span class="meta-item meta-mo">Jean-Luc Moudenc — Sortant (Droite / centre-droit)</span>
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="active" onclick="show('transports', this)">🚌 Mobilités</button>
+  <button onclick="show('logement', this)">🏠 Logement</button>
+  <button onclick="show('ecologie', this)">🌿 Écologie</button>
+  <button onclick="show('securite', this)">🔒 Sécurité</button>
+  <button onclick="show('sante', this)">🏥 Santé</button>
+  <button onclick="show('ecoles', this)">🎒 Écoles & Enfance</button>
+  <button onclick="show('culture', this)">🎭 Culture & Sport</button>
+  <button onclick="show('economie', this)">💼 Économie & Fiscalité</button>
+  <button onclick="show('democratie', this)">🗳 Démocratie</button>
+</nav>
+
+<!-- ═══════════════════════ MOBILITÉS ═══════════════════════ -->
+<section id="transports" class="section active">
+  <div class="section-title">Mobilités & Transports</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Tarification TC</td>
+        <td class="pi-cell"><span class="tag tag-pi">radical</span><br>Gratuité totale pour les &lt;26 ans d'ici 2030, baisse tarifaire dès sept. 2026. Gouvernance 100% publique Tisséo (reprise DSP).</td>
+        <td class="br-cell"><span class="tag tag-br">progressif</span><br>Gratuité pour &lt;18 ans et étudiants boursiers. Abonnement 10 €/mois pour &lt;26 ans. Tarification selon revenus dès jan. 2027. Ticket découverte 4 mois pour nouveaux arrivants.</td>
+        <td class="mo-cell"><span class="tag tag-neutral">statu quo</span><br>Tarification solidaire existante depuis 2024. Aucune gratuité ni abonnement jeune spécifique annoncé.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Offre bus (+20%)</td>
+        <td class="pi-cell">+20% de l'offre globale (+4 M km commerciaux). Nouvelles lignes Linéo avec sites propres. Voies réservées obligatoires sur grands axes. Amplitude 5h–minuit. NoctamBus. Doublement rames ligne B à l'étude.</td>
+        <td class="br-cell">+20% en 3 ans après analyse des lignes à créer/renforcer (amplitude, cadencement, site propre). Augmentation vitesse commerciale.</td>
+        <td class="mo-cell">Défend son bilan : budget mobilités le plus élevé de France hors Paris. Pas d'objectif de hausse d'offre chiffré annoncé pour le mandat.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">RER / SERM</td>
+        <td class="pi-cell">RER toulousain cadencé toutes les 15 min, de 5h à minuit. Modèle de l'association Rallumons l'Étoile. Nouvelles haltes ferroviaires. Tarification intégrée Tisséo + RER.</td>
+        <td class="br-cell">Soutien au SERM avec déploiement progressif 2028–2040. Engagement Métropole + Département + Région Occitanie. 6 corridors ferroviaires, 54 gares. Interconnexions multimodales efficaces.</td>
+        <td class="mo-cell">Défend la Ligne C du métro (4,2 Md€) et la LGV. Prolongement de Téléo vers Malepère. Critique l'opposition pour son opposition à la LGV.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Vélo</td>
+        <td class="pi-cell">REV complet (2 circulaires + 12 traversantes) avant 2032. 400 km de pistes. Objectif part modale 15% à Toulouse (6% aujourd'hui). Triple les stationnements vélo. Maisons de la mobilité en périphérie.</td>
+        <td class="br-cell">Finalisation du REV (seulement 30% réalisé par la majorité sortante). Priorité aux faubourgs est, ouest et nord. Doublement des arceaux. Stations de réparation. Espace vélos dans la Halle des mobilités.</td>
+        <td class="mo-cell">Bilan : 820 km de réseau cyclable (+37% depuis 2015). 265 M€ investis vélo depuis 2020. Nouveau VélôToulouse (50% électrique, triplement des utilisateurs).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Piétons / PMR / accessibilité</td>
+        <td class="pi-cell">SDPA remis à plat. Objectif 45% de part modale marche (vs 39% aujourd'hui). PAVE complété d'urgence. Bancs, traversées sécurisées, toilettes publiques (260 objectif vs 124). Pédibus métropolitain.</td>
+        <td class="br-cell">Ville à hauteur d'enfant. Rues aux écoles piétonnes co-construites. Plan PICTA (piéton prioritaire). Audit complet accessibilité trottoirs. Amélioration forte accessibilité PMR.</td>
+        <td class="mo-cell">Maintien 50 km/h sur grands axes, 90 km/h sur la rocade. Liberté de choix modal défendue. Pas de programme de piétonnisation massive annoncé.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Stationnement / voiture</td>
+        <td class="pi-cell">Régie publique du stationnement (sortie INDIGO). Surtaxe au poids pour gros véhicules. Autopartage public. Suppression des obligations de parkings excessives dans le neuf.</td>
+        <td class="br-cell">Tarification solidaire et écologique dès 2026. Reprise progressive sous contrôle public des parkings (renégociation tarifs). Bureau des temps et mobilités pour lisser les heures de pointe.</td>
+        <td class="mo-cell"><span class="tag tag-mo">seule liste pro-voiture</span><br>100 €/an stationnement résident (parmi les moins chers de France). Gratuité stationnement véhicules électriques. Suppression des "sucettes inutiles". Lutte voitures ventouses.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Grands projets routiers</td>
+        <td class="pi-cell"><span class="tag tag-pi">opposition radicale</span><br>Stop Jonction Est, A69, LGV, Canal Saint-Martory. Aucune monnaie d'échange sur ces sujets, avant ou après élection. PARM remis à plat.</td>
+        <td class="br-cell"><span class="tag tag-br">opposition</span><br>Arrêt définitif de la Jonction Est (>20 ha artificialisés pour &lt;5 min de gain voiture). Réorientation investissements vers mobilités durables. Rétablissement emplacement E322 pour future extension ferroviaire.</td>
+        <td class="mo-cell"><span class="tag tag-mo">pro-projets</span><br>Défend la LGV, la Ligne C, Téléo. Critique l'opposition jugée "déconnectée des réalités des classes moyennes et populaires".</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Grand projet urbain phare</td>
+        <td class="pi-cell">Convention citoyenne métropolitaine des mobilités avec pouvoir réel. Coopératives de quartier pour arbitrage des tracés et phases-test.</td>
+        <td class="br-cell"><strong>Étoile Verte</strong> : transformation des pénétrantes, des boulevards de l'octogone et des 3 canaux (Midi, Brienne, latéral) en espaces doux végétalisés, REV et promenade. Projet sur plusieurs mandats.</td>
+        <td class="mo-cell">Prolongement Téléo vers Malepère. Ligne C du métro. Concentration sur l'extension et la modernisation du réseau existant.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ LOGEMENT ═══════════════════════ -->
+<section id="logement" class="section">
+  <div class="section-title">Logement & Urbanisme</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Encadrement des loyers</td>
+        <td class="pi-cell"><span class="tag tag-pi">pour</span><br>Demande d'expérimentation à l'État. Gel pluriannuel du parc public (Toulouse Métropole Habitat). Plaidoyer pour pérennisation dans la loi. Économie estimée à 36 €/mois pour une famille de 4 après 4 ans.</td>
+        <td class="br-cell"><span class="tag tag-br">pour</span><br>Lancement du débat avec maires de la métropole. Candidature de Toulouse Métropole avant fin 2026 dans le cadre de la future loi parlementaire.</td>
+        <td class="mo-cell"><span class="tag tag-neutral">contre</span><br>Toulouse ne remplit pas les conditions légales. Cite Paris (+2,5% loyers avec encadrement) vs Marseille sans encadrement (+2,2%) pour relativiser l'effet. Juge la mesure inefficace.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Construction logements sociaux</td>
+        <td class="pi-cell"><strong>24 000 logements sociaux sur le mandat</strong> (objectif 4 000/an). TMH : 500→1 000 constructions/an, 750→1 500 réhabilitations/an. Droit de préemption renforcé. Extension règle 35% de logements sociaux.</td>
+        <td class="br-cell"><strong>15 000 logements à loyers modérés</strong> + 7 500 en bail réel solidaire (BRS) sur le mandat. Nouveaux projets près universités et pôles d'emploi.</td>
+        <td class="mo-cell">Bilan : 10 147 logements sociaux produits depuis 2014. 35% de logements sociaux dans le PLUiH + 25% abordables. 2 658 accessions sociales depuis 2014. Pas d'objectif nouveau chiffré annoncé.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Rénovation énergétique</td>
+        <td class="pi-cell">Zéro passoire F&G avant 2034, zéro passoire E avant 2038. <strong>45 000 logements rénovés</strong> sur le mandat. Acquisitions publiques + préemptions massives + OPAH ciblées via EPFL.</td>
+        <td class="br-cell"><strong>30 000 logements rénovés</strong> sur le mandat. Accélération rénovation parc social (baisse charges locataires). Soutien copropriétés privées.</td>
+        <td class="mo-cell">Primes rénovation énergétique (3 776 € en moyenne, 644 attribuées). Cadastre solaire. Pas d'objectif global chiffré pour le prochain mandat.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Airbnb / locations touristiques</td>
+        <td class="pi-cell">Durée max réduite à 90 jours/an. Très peu d'autorisations pour résidences secondaires. Office de contrôle des loyers créé.</td>
+        <td class="br-cell">Réduction de 120 à 90 jours/an. Contrôle strict. Agence immobilière sociale ALIS renforcée pour lutter contre la vacance.</td>
+        <td class="mo-cell"><span class="absent">Pas de mesure spécifique annoncée dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Mal-logement / SDF</td>
+        <td class="pi-cell">Réquisition de bâtiments vides (pouvoirs de police du maire). Ouverture équipements municipaux en période de grand froid. Maraudes renforcées. Constate 900 personnes à la rue dont des enfants.</td>
+        <td class="br-cell">500 logements passerelles (femmes victimes de violence + publics fragiles). Objectif zéro enfant à la rue. Interpellation de l'État pour réquisitions. Aide aux ménages en impayés / menacés d'expulsion.</td>
+        <td class="mo-cell">ALIS : 300 logements à -20% du marché pour ménages modestes. Pas d'engagement quantifié spécifique sur les SDF dans les éléments récupérés.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Permis de louer</td>
+        <td class="pi-cell">Généralisation à toute la ville pour contrôler salubrité avant mise en location. Renforcement du service communal d'hygiène et de santé (90% des signalements actuels sans suite).</td>
+        <td class="br-cell">Déploiement dans les quartiers à enjeux. Équipe mobile de lutte contre l'habitat indigne en lien avec le Parquet.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Accession à la propriété</td>
+        <td class="pi-cell">Développement du bail réel solidaire. Charte promoteur avec clauses anti-spéculatives.</td>
+        <td class="br-cell">7 500 logements en BRS sur le mandat. Conversion de bureaux en logements. Soutien à l'habitat participatif.</td>
+        <td class="mo-cell">2 658 accessions sociales depuis 2014. 2e niveau de loyer le moins cher des grandes métropoles (12,2 €/m²). Poursuite BRS sans objectif spécifique annoncé.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Orientation urbanistique</td>
+        <td class="pi-cell"><span class="tag tag-pi">rupture</span><br>Sortie du capitalisme urbain. Stop aux projets spéculatifs (Jonction Est). Atlas du foncier invisible. Observatoire citoyen de l'urbanisme. Rénover plutôt que démolir. ZAN à l'horizon 2040.</td>
+        <td class="br-cell"><span class="tag tag-br">planification maîtrisée</span><br>Stratégie foncière ambitieuse (droit de préemption, EPFL). Ville polycentrique à quart d'heure. Repenser Malepère, Paleficat, Grand Matabiau. Plan guide le long de la 3e ligne de métro. Protection patrimoine des faubourgs.</td>
+        <td class="mo-cell"><span class="tag tag-mo">croissance et attractivité</span><br>Défend la politique de construction. 40 nouvelles écoles construites. Attractivité toulousaine comme moteur. Pas de remise en question de la politique foncière actuelle.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ÉCOLOGIE ═══════════════════════ -->
+<section id="ecologie" class="section">
+  <div class="section-title">Écologie & Environnement</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Ambition climatique</td>
+        <td class="pi-cell"><span class="tag tag-pi">très ambitieux</span><br>-55% GES d'ici 2030 (vs 1990). Métropole quasiment décarbonée en 2050. Règle Verte. Planification écologique populaire. Régies publiques comme outil central.</td>
+        <td class="br-cell"><span class="tag tag-br">ambitieux</span><br>Trajectoire compatible avec l'urgence climatique. Assemblée citoyenne de l'urgence climatique. Plan mobilités 2050 neutralité carbone. "Ville jardin".</td>
+        <td class="mo-cell"><span class="tag tag-neutral">pragmatique</span><br>"Écologie pragmatique". Bilan : label "Territoire engagé transition écologique" (score 69,8%). Pas d'objectif GES chiffré pour le prochain mandat.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Végétalisation / fraîcheur</td>
+        <td class="pi-cell">Grand plan de canopée urbaine. <strong>Parc hippodrome de la Cépière (34 ha)</strong> transformé en grand parc. 1 parc fraîcheur par quartier (&lt;15 min). Moratoire immédiat coupes d'arbres. Désimperméabilisation 50 ha. Cours d'école d'abord.</td>
+        <td class="br-cell"><strong>Grand parc Est toulousain (100 ha)</strong> + Ceinture verte. Végétalisation massive et équitable. Cours oasis dans les 93 écoles restantes (vraie végétalisation, sols vivants). Étoile Verte (canaux + boulevards). Aire de jeux à 300 m de chez soi.</td>
+        <td class="mo-cell">Bilan : +110 000 arbres, +160 ha espaces verts, 120 cours oasis fin 2026. 97% des Toulousains à &lt;15 min d'un parc. Multiplication par 4 des jardins partagés. +23 ha dégoudronnés.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Eau</td>
+        <td class="pi-cell">Régie publique de l'eau et de l'assainissement avant 2032 (sortie Véolia). Premiers m³ gratuits (minimum vital). Tarification progressive.</td>
+        <td class="br-cell">Tarification progressive, écologique et solidaire. Préparation du retour en régie publique à l'horizon de la fin de DSP.</td>
+        <td class="mo-cell">Amélioration qualité de l'eau potable (au-delà des normes légales). Pas de reprise en régie prévue ni annoncée.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Déchets</td>
+        <td class="pi-cell">Trajectoire ZeroWaste. Réduction massive de l'incinération. Tri des biodéchets à la source. Étude passage en régie publique de DECOSET. Régies publiques de partage (véhicules, outils, matériel).</td>
+        <td class="br-cell">Centre populaire de la biosphère (éducation populaire climat/biodiversité). <span class="absent">Peu détaillé dans les éléments récupérés.</span></td>
+        <td class="mo-cell"><span class="absent">Peu détaillé dans les éléments récupérés.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Alimentation publique</td>
+        <td class="pi-cell">100% bio/local en restauration publique. Option végétarienne quotidienne + 2 repas végétariens/semaine avant 2030. Sécurité sociale de l'alimentation. Fermes urbaines. Restaurants municipaux en régie publique. Soutien AMAPs, marchés paysans.</td>
+        <td class="br-cell">"Ordonnances vertes" : paniers de fruits et légumes bio pour femmes enceintes. Soutien à la sécurité sociale de l'alimentation. Goûter quotidien gratuit dans les cantines scolaires avec option végétarienne.</td>
+        <td class="mo-cell">Bilan : 55% produits bio ou sous label qualité à la cantine. Prix cantine bloqué depuis 2015. Pas d'objectif 100% bio annoncé.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Publicité / pollution</td>
+        <td class="pi-cell">Réglementation contre la pollution lumineuse (droit à la nuit). Régulation publicité lumineuse en ville. Zone sans pesticides de 100 m autour de toutes les écoles.</td>
+        <td class="br-cell">Suppression panneaux publicitaires numériques (pollution visuelle + énergétique). Révision du Règlement Local de Publicité. Faire respecter l'extinction des enseignes la nuit.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Biodiversité urbaine</td>
+        <td class="pi-cell">Trames vertes et bleues dans PLUi et SCoT. Plan zéro phyto généralisé. Protection faune liminaire (insectes, oiseaux). Nichoirs. Sortie des produits chimiques et perturbateurs endocriniens dans bâtiments publics (surtout écoles). Friches maintenues pour pollinisateurs.</td>
+        <td class="br-cell">Renforcement protection espaces naturels, agricoles et forestiers dans la Métropole. Parcs métropolitains de grande ampleur. Traverses vertes favorisant la biodiversité (canaux).</td>
+        <td class="mo-cell">Bilan : 47 squares et jardins depuis 2020. Charte nationale rafraîchissement urbain. Signature obtenant le label "Territoire engagé transition écologique".</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Énergie</td>
+        <td class="pi-cell">Études sur la géothermie. Sobriété comme fil rouge de la politique énergétique. ZAN à l'horizon 2040 (la loi dit 2050). Panneaux solaires et récupération d'eau de pluie dans les bâtiments publics.</td>
+        <td class="br-cell"><span class="absent">Peu détaillé dans les éléments récupérés.</span></td>
+        <td class="mo-cell">Cadastre solaire en ligne pour faciliter les installations. Partenariats installateurs labellisés. Primes rénovation énergétique (3 776 € en moyenne). Accélération transition énergétique annoncée.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SÉCURITÉ ═══════════════════════ -->
+<section id="securite" class="section">
+  <div class="section-title">Sécurité</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Police municipale</td>
+        <td class="pi-cell"><span class="tag tag-pi">désarmement</span><br>Police de <em>proximité</em>. 4 agents identifiés par quartier dans les 60 quartiers. Antenne par secteur (20 secteurs). Formation à la médiation et au dialogue. Expérimentation permanences de proximité. Défend le désarmement de la PM.</td>
+        <td class="br-cell">Territorialisation complète. Objectif : <strong>1 agent pour 1 000 habitants</strong>. Unités de quartier identifiées et connues des habitants. Maintien de l'armement. Service de médiation et de tranquillité urbaine en partenariat avec les bailleurs.</td>
+        <td class="mo-cell"><span class="tag tag-mo">armement renforcé</span><br><strong>390 policiers municipaux armés</strong> (+136% en 10 ans). Présence 24h/24 dans tous les quartiers. Brigades spécialisées (motorisée, VTT, contact). LBD depuis 2024. Hôtel de Police moderne (Basso Cambo).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Vidéosurveillance</td>
+        <td class="pi-cell"><span class="tag tag-pi">critique</span><br>Pas de déploiement massif annoncé. Opposition à la reconnaissance faciale. Remise à plat du système LAPI (contrôle stationnement).</td>
+        <td class="br-cell">Audit des caméras existantes. Confirmation non-utilisation de la reconnaissance faciale. Maintien des investissements déjà réalisés et amélioration de leur efficacité.</td>
+        <td class="mo-cell"><span class="tag tag-mo">expansion forte</span><br><strong>710 caméras fin 2025</strong> (21 en 2014). 7 238 appuis vidéo en 2025, 1 038 interpellations. 500 situations de détresse détectées. <strong>Objectif : 1 caméra par rue.</strong></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Trafic de stupéfiants</td>
+        <td class="pi-cell">Approche prévention, santé, cohésion. Politique de prévention des addictions, notamment pour les jeunes. Pas de plan répressif spécifique annoncé.</td>
+        <td class="br-cell">Plan <strong>"stop au deal"</strong> combinant sécurité + prévention + santé + cohésion sociale. Réseau inter-villes Sud-Ouest (Toulouse, Montpellier, Bordeaux). Renforcement de la présence au sein de la CROSS.</td>
+        <td class="mo-cell">Bilan : +130% d'affaires révélées pour trafic de stupéfiants. Premier Contrat de Sécurité Intégré de France (2020). Fermetures administratives de commerces impliqués. 14 896 patrouilles en 2025.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Violences faites aux femmes</td>
+        <td class="pi-cell">Permanence d'écoute 24h/24 par agents formés. Logements d'urgence anonymes et sécurisés. Formation PM aux violences sexistes et sexuelles. Mairie en partie civile. Extension et amélioration du dispositif "Demandez Angela". Plan lutte VSS dans le sport.</td>
+        <td class="br-cell">Référents "égalité et lutte contre les violences" dans tous les services municipaux, écoles et équipements sportifs. Formation des agents. Lieux d'écoute 24h/24. Relogement d'urgence coordonné. Toulouse ville référente lutte contre VSS.</td>
+        <td class="mo-cell">Bilan : dispositif "Demandez Angela" (140+ lieux sûrs). Descente à la demande dans les bus à partir de 22h. Engagement à faire de Toulouse une ville exemplaire.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Justice / partenariat État</td>
+        <td class="pi-cell">Complémentarité PM et police nationale respectée. Travail dans le respect des compétences de chacun.</td>
+        <td class="br-cell">Exiger de l'État des effectifs de Police Nationale supplémentaires. Soutien aux Maisons de la justice et des droits. Projet de Cité judiciaire sur le site de l'ex-prison Saint-Michel.</td>
+        <td class="mo-cell">Premier CSI de France (2020) : +115 PN supplémentaires, +22 postes justice créés. Budget sécurité multiplié par 3 en 10 ans (42 M€ sur 2020–2026).</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SANTÉ ═══════════════════════ -->
+<section id="sante" class="section">
+  <div class="section-title">Santé</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Déserts médicaux</td>
+        <td class="pi-cell">Création de <strong>centres de santé municipaux</strong> avec médecins salariés : généralistes + spécialistes en pénurie (ophtalmo, gynéco, rhumato, infirmiers, kiné, psychologues…). Modèle salarié pour attirer l'installation.</td>
+        <td class="br-cell">Création de centres de santé. Stratégie foncière pour réserver du terrain à de futurs centres. Lien avec le projet de Cité judiciaire (proximité services publics).</td>
+        <td class="mo-cell"><span class="tag tag-mo">contre les centres salariés</span><br>Préfère les maisons de santé pluriprofessionnelles : 19 déjà ouvertes (+2 prévues en 2026). Critique le modèle de centres salariés comme "coûteux avec service moindre". Soutien actif au CHU (classé meilleur de France).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Santé mentale</td>
+        <td class="pi-cell">Pôle de santé mentale municipal. Consultation <strong>anonyme, gratuite, sans RDV ni autorisation parentale</strong> pour les jeunes (modèle Barcelone). Accès en quartier.</td>
+        <td class="br-cell">Plan municipal ambitieux pour la santé mentale. Lutte contre la solitude à tout âge.</td>
+        <td class="mo-cell">Conseil local de santé mentale existant. Programme SURICATE pour les 15–30 ans (prix européen de la santé 2021).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Seniors</td>
+        <td class="pi-cell">Habitat participatif type Abricoop. Co-location pour seniors afin de lutter contre l'isolement. Résidences intergénérationnelles. Restaurants seniors solidaires maintenus.</td>
+        <td class="br-cell">Plan "Mieux vieillir". Lutte contre l'isolement seniors. Accompagnement humain et solidaire dans chaque quartier. Habitats inclusifs, résidences intergénérationnelles, béguinages pour femmes seniors. Maintien à domicile facilité (travaux d'adaptation).</td>
+        <td class="mo-cell">Mutuelle communale (300 €/an d'économies, 6 000 bénéficiaires). Extension à tous annoncée. Carte "Mon Toulouse Senior" (50 000 bénéficiaires). 19 restaurants seniors solidaires à 3,40 €. Pass numérique. Assurance habitation communale.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Santé environnementale</td>
+        <td class="pi-cell">Zone sans pesticides de 100 m autour de toutes les écoles. Sortie des produits chimiques et perturbateurs endocriniens dans bâtiments municipaux. Désamiantage des bâtiments communaux. Lutte contre pollution sonore et lumineuse. Sécurisation sites radioactifs.</td>
+        <td class="br-cell">"Bouclier Santé-Environnement" pour équipements sensibles (crèches, écoles, centres de loisirs). Plan municipal "santé scolaire". Déploiement d'une politique de santé scolaire.</td>
+        <td class="mo-cell">Amélioration qualité de l'air et de l'eau. Boucles santé dans tous les quartiers. Végétalisation massive présentée comme levier de santé publique.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Canicules / confort thermique</td>
+        <td class="pi-cell">Objectif 260 toilettes publiques (vs 124 actuellement). Fontaines, brumisateurs. Études pour rendre la Garonne baignable. Piscines municipales <strong>gratuites durant les canicules</strong>. Plan canicule & santé environnementale. Brasseurs d'air dans écoles, EHPAD et logements publics.</td>
+        <td class="br-cell">Végétalisation pour fraîcheur. Ville jardin. Cours oasis. <span class="absent">Pas de mesures piscine/eau spécifiques annoncées dans les éléments récupérés.</span></td>
+        <td class="mo-cell">Végétalisation comme prévention thermique (110 000 arbres). Pas de mesure spécifique piscine / eau pour les canicules annoncée.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Pouvoir d'achat / santé</td>
+        <td class="pi-cell">Centres de santé gratuits. Sécurité sociale de l'alimentation. Gratuité piscines en canicule.</td>
+        <td class="br-cell">Tarification solidaire des services publics. Services de santé accessibles à tous.</td>
+        <td class="mo-cell">Mutuelle communale élargie à tous (jusqu'à 300 €/an). Assurance habitation communale (réduction dépenses mensuelles). Groupements d'achat (pièges à moustiques, extension prévue). Restaurants seniors à 3,40 € (prix bloqué depuis 12 ans).</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ÉCOLES ═══════════════════════ -->
+<section id="ecoles" class="section">
+  <div class="section-title">Écoles, Petite enfance & Jeunesse</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Cantine & tarifs</td>
+        <td class="pi-cell">Gratuité immédiate pour les familles les plus modestes. Tendance vers gratuité totale sur le mandat. 100% bio/local à terme. 2 repas végétariens/semaine avant 2030. Option végétarienne quotidienne. Dénonce : une famille à moins de 900 € paye 292 €/an pour 2 enfants.</td>
+        <td class="br-cell">Goûter quotidien gratuit avec option végétarienne de qualité. Gratuité restauration pour les plus précaires. Tarification solidaire pour les services publics.</td>
+        <td class="mo-cell">Prix cantine bloqué depuis 2015 (malgré l'inflation). Famille ne paye que 16% du coût réel. 55% produits bio ou sous label. Critique l'opposition qui "feint d'ignorer" les 36 M€/an investis.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Fournitures scolaires</td>
+        <td class="pi-cell">Gratuité des fournitures scolaires via des kits (85 €/an d'économies par famille).</td>
+        <td class="br-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Rénovation des écoles</td>
+        <td class="pi-cell">Audit complet avec acteurs de terrain (amiante, isolation, toitures). Grand Plan Écoles Publiques transparent et planifié. Thermomètres, capteurs, brasseurs d'air dans chaque école. Mise en conformité accessibilité. Concierge par groupe scolaire.</td>
+        <td class="br-cell">Plan pluriannuel de rénovation adapté au changement climatique. Généralisation des cours oasis dans les 93 écoles restantes (vraie végétalisation, pas symbolique). Rues aux enfants végétalisées et co-construites. Écoles en plein air lors des fortes chaleurs.</td>
+        <td class="mo-cell">Bilan : +500 M€ d'investissement, 40 nouvelles écoles, 40 réhabilitées. 120 cours oasis prévues fin 2026. 36 M€/an de travaux.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Personnel (ATSEM, agents)</td>
+        <td class="pi-cell">1 ATSEM par classe + brigades ATSEM par école. Retour au taux d'encadrement légal : 1/8 en maternelle, 1/12 en élémentaire. Recrutement de plus de personnel technique. Sortie de la précarité des agents de sécurité routière.</td>
+        <td class="br-cell">1 ATSEM par classe de maternelle sur tout le temps scolaire. Renforcement des moyens humains pour l'accompagnement des enfants à besoins particuliers.</td>
+        <td class="mo-cell"><span class="absent">Pas de mesures spécifiques annoncées sur le personnel dans les éléments récupérés.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Culture, sport & activités</td>
+        <td class="pi-cell">Professeurs "Ville de Toulouse" pour les enseignements sportifs et artistiques. Classe verte obligatoire pour chaque enfant sur la scolarité. Apprentissage natation obligatoire (12 séances/an, objectif : tous sachent nager en 6e). Jumelages écoles-structures culturelles.</td>
+        <td class="br-cell">1 sortie culturelle ou artistique par trimestre pour chaque élève. Pratiques artistiques dès le plus jeune âge. Concertation des enfants pour l'aménagement des espaces publics et des cours d'école.</td>
+        <td class="mo-cell">Activités périscolaires soutenues. Budget culture = 2e poste municipal. Pas de mesures scolaires culturelles spécifiques nouvelles annoncées.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Crèches / petite enfance</td>
+        <td class="pi-cell">Aucune famille sans solution. Nouvelles places en crèches municipales. Soutien crèches associatives et parentales. Crèche d'application municipale. Crèches à horaires décalés (modèle ex-crèche Ste Lucie). Financement pluriannuel stable.</td>
+        <td class="br-cell"><strong>1 000 places supplémentaires</strong> sur le mandat, prioritairement dans les quartiers sous-dotés. Attribution des places plus transparente et équitable. Accompagnement renforcé parentalité.</td>
+        <td class="mo-cell">Bilan : +2 100 places de garde 0–3 ans créées depuis 2014. Pas d'objectif chiffré nouveau annoncé dans les éléments récupérés.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Jeunesse (15–25 ans)</td>
+        <td class="pi-cell">Gratuité TC pour les &lt;26 ans. Encadrement loyers étudiants. Contrôle marché de la colocation + plateforme publique de colocation. Gratuité musées rétablie pour étudiants. Pôle santé mentale anonyme. Conseils de la jeunesse dans les quartiers.</td>
+        <td class="br-cell">Abonnement TC à 10 €/mois pour les &lt;26 ans. Gratuité pour &lt;18 ans et boursiers. Pass'Sport Toulouse. Gratuité des bibliothèques. Pratique culturelle hebdomadaire accessible.</td>
+        <td class="mo-cell">Tarification solidaire TC existante. Primes pour achats de véhicules propres (2 960 € en moyenne). Pas de mesure jeunesse spécifique nouvelle annoncée.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CULTURE ═══════════════════════ -->
+<section id="culture" class="section">
+  <div class="section-title">Culture & Sport</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Financement des associations</td>
+        <td class="pi-cell">Stop à l'austérité immédiat. Hausse et maintien des subventions. Conventions pluriannuelles 3–5 ans. Fin du financement par appels à projets. Transparence totale dans l'attribution. Simplification des démarches administratives.</td>
+        <td class="br-cell">Plan de soutien aux associations (culturelles, sportives, éducation populaire). Subventions stables. Renforcement des services publics de proximité.</td>
+        <td class="mo-cell">Maintien du soutien malgré les contraintes budgétaires imposées par l'État. Tarification solidaire culture/sport depuis 2024. Critique l'opposition qui avait coupé les subventions sous Cohen.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Accès à la culture</td>
+        <td class="pi-cell">Gratuité progressive des musées pour étudiants (supprimée par Moudenc). Tarification sociale de tous les équipements culturels. Planification des TC pour les grands événements culturels.</td>
+        <td class="br-cell">Gratuité totale des bibliothèques avec revalorisation des moyens et des horaires d'ouverture. Pratique culturelle et artistique hebdomadaire sur tout le territoire. "Villa Tolosa" : lieu dédié à la création contemporaine ouvert sur le monde.</td>
+        <td class="mo-cell">Bilan : +27% de fréquentation dans les musées. 1 265 000 visiteurs dans les monuments en 2024 (vs 460 000 en 2014). Tarification solidaire mise en place. Budget culture = 2e poste municipal (2× la moyenne nationale par habitant).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Culture de proximité</td>
+        <td class="pi-cell">Plan "1 festival dans mon quartier" (20 secteurs). Studios publics, ateliers d'artistes. Ciné-clubs, théâtre amateur. Soutien tiers-lieux type Mixart Myrys. Scène queer protégée des attaques d'extrême droite. Soutien aux arts du cirque (Esacto Lido).</td>
+        <td class="br-cell">Valorisation des cultures urbaines (street-art, hip-hop, rap). Offre de pratique balayant tous les arts. Soutien culture occitane en concertation avec les associations.</td>
+        <td class="mo-cell">Bilan : 60 fresques murales créées. Rose Festival (115 000 festivaliers). Toulouse "ville des musiques" UNESCO 2023. Pas de nouvelles mesures de proximité spécifiquement annoncées.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Culture occitane</td>
+        <td class="pi-cell">Financement des écoles et événements occitans. Traductions des noms de rues et des arrêts TC. Diffusion d'émissions et de musique occitanes.</td>
+        <td class="br-cell">Soutien à la Culture occitane en concertation avec les associations.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Sport</td>
+        <td class="pi-cell">Conventions pluriannuelles pour les clubs sportifs. Plan de lutte contre les violences sexuelles dans le sport (formation encadrants, conditionnement des aides publiques). Espaces sûrs en non-mixité choisie pour les femmes.</td>
+        <td class="br-cell">Pass'Sport Toulouse (aide directe à la licence sportive, cumulable avec dispositifs nationaux). "Ligue des Quartiers" (tournois inter-écoles, mentorat sportives professionnelles). Plan pratique féminine du sport. Budget sensible au genre.</td>
+        <td class="mo-cell">Agrandissement du Stadium. Tarification solidaire des activités sportives. Défend le soutien aux clubs de toutes tailles. Pas de nouvelles mesures structurantes annoncées.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Mémoire & patrimoine</td>
+        <td class="pi-cell">Musée des histoires et mémoires de Toulouse (de la préhistoire à aujourd'hui). Antenne du musée mémorial sur le terrorisme (Mohamed Merah). Partenariats avec les archives et associations de mémoire.</td>
+        <td class="br-cell">Renforcement de l'identité des faubourgs par une politique de préservation et de mise en valeur du patrimoine bâti et végétal. Liens avec les villes jumelées dans un esprit d'échanges culturels et de paix.</td>
+        <td class="mo-cell">Défense de l'identité "Ville Rose". Protection du patrimoine. 1 265 000 visiteurs dans les monuments en 2024. Toulouse consacrée "ville des musiques" UNESCO.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ ÉCONOMIE ═══════════════════════ -->
+<section id="economie" class="section">
+  <div class="section-title">Économie, Emploi & Fiscalité</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Orientation générale</td>
+        <td class="pi-cell"><span class="tag tag-pi">rupture</span><br>Sortie du capitalisme urbain. Coopération entre territoires (contre la compétition "tout pour Toulouse"). Remise en question des hypothèses démographiques du PLUIH. Conférence des villes moyennes et des bourgs.</td>
+        <td class="br-cell"><span class="tag tag-br">réformiste</span><br>Diversification économique. Soutien filières d'excellence ET nouvelles filières. ESS valorisée. Campus du futur (santé, robotique, IA responsable, cybersécurité, biotech, ENR).</td>
+        <td class="mo-cell"><span class="tag tag-mo">libéral / croissance</span><br>"Terre de progrès qui réussit". Pro-aéronautique, pro-entreprise, pro-industrialisation. Défense de l'attractivité et du rayonnement toulousain.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Aéronautique / industrie</td>
+        <td class="pi-cell"><span class="tag tag-pi">critique</span><br>Opposition à la LGV. Pas d'engagement pro-aéronautique. Transition écologique comme priorité. Contre les projets à fort bilan carbone.</td>
+        <td class="br-cell">Soutien à l'aéronautique et au spatial. Diversification vers les énergies renouvelables. Défend les Campus du futur dans des filières stratégiques variées.</td>
+        <td class="mo-cell"><span class="tag tag-mo">défense forte</span><br>"Seule liste pro-aéronautique". Défend la LGV. Critique Briançon pour avoir soutenu Piquemal qui a voté contre les budgets de la LGV au Parlement.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Commerce de proximité</td>
+        <td class="pi-cell">Protection des linéaires commerciaux contre les grands groupes. Ville du quart d'heure : commerces dans tous les quartiers. Activités non polluantes réparties dans tous les quartiers.</td>
+        <td class="br-cell">Plan de soutien à l'économie locale (commerces, artisans, quartiers, faubourgs). Ville polycentrique. Politique publique sur les commerces pour maintenir l'équilibre des quartiers.</td>
+        <td class="mo-cell">Commerce présenté comme dynamique sous son mandat. Pas de plan spécifique annoncé pour le prochain mandat dans les éléments récupérés.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Régies publiques / services</td>
+        <td class="pi-cell">Régies publiques pour l'eau, les déchets, le stationnement, les transports (biens communs, pas source de profits privés). Plus de personnel dans les écoles et crèches. Recrutements PM de proximité.</td>
+        <td class="br-cell">Services publics ambitieux, accessibles et de haute qualité. Embauches dans les équipements culturels. Renforcement des équipes de quartier. Reprise progressive des parkings sous contrôle public.</td>
+        <td class="mo-cell">Stabilité budgétaire = maintien des services sans hausse fiscale. Pas de nouvelles régies publiques prévues. Gestion déléguée maintenue (Tisséo, eau, déchets).</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Fiscalité locale</td>
+        <td class="pi-cell">Financement par réorientation des dépenses. Pas de promesse de gel fiscal explicite. Critique la "folie fiscale" attribuée à l'opposition par Moudenc comme caricaturale.</td>
+        <td class="br-cell">Choix budgétaires sans hausse fiscale explicitement promise. Dénonce la gestion Moudenc comme "décroissance sociale" cachée derrière la stabilité fiscale.</td>
+        <td class="mo-cell"><span class="tag tag-mo">engagement fort</span><br>Zéro hausse de la taxe foncière ni de la CFE pendant tout le mandat. Bilan : 491 €/an de moins vs 2014. Paris : +52%, Grenoble : +25%, Lyon : +9%. Critique les promesses de l'opposition comme "irréalistes et coûteuses".</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════ DÉMOCRATIE ═══════════════════════ -->
+<section id="democratie" class="section">
+  <div class="section-title">Démocratie, Gouvernance & Société</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="h-topic">Sujet</th>
+      <th class="h-pi">Piquemal</th>
+      <th class="h-br">Briançon</th>
+      <th class="h-mo">Moudenc</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="topic-cell">Démocratie participative</td>
+        <td class="pi-cell">Coopératives de quartier dans les 60 quartiers (une personne = une voix, ouvertes dès 16 ans y compris aux sans-papiers). Convention citoyenne métropolitaine des mobilités avec pouvoir réel. Mise à disposition de facilitateurs formés.</td>
+        <td class="br-cell">Fabrique toulousaine continue (co-construction des décisions). Assises de la démocratie vivante. Droit d'initiative citoyenne (saisine municipale avec obligation d'examen si soutien populaire). Assemblée citoyenne de l'urgence climatique.</td>
+        <td class="mo-cell">Consultation via les commissions de quartiers existantes. Pas de nouvelle instance participative majeure annoncée dans les éléments récupérés.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Transparence & éthique</td>
+        <td class="pi-cell">Remise à plat de l'attribution des subventions. Fin du clientélisme (quota du maire → quota du conseil municipal selon critères transparents). Observatoire citoyen de l'urbanisme. Dénonçe les arrangements avec les promoteurs.</td>
+        <td class="br-cell">Code d'éthique et de probité pour restaurer la confiance. Faire de Toulouse une ville exemplaire dans la lutte contre la corruption et les conflits d'intérêts.</td>
+        <td class="mo-cell">Défend son bilan de gestion rigoureuse. Pas de mesures spécifiques de transparence ou d'éthique annoncées dans les éléments disponibles.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Lutte contre les discriminations</td>
+        <td class="pi-cell">Programme complet contre les discriminations LGBTQIA+, racistes et validistes. Formation des agents. Soutien à la scène queer et protection contre les attaques d'extrême droite. Observatoire interne.</td>
+        <td class="br-cell">Observatoire municipal des discriminations. Actions de formation et interventions scolaires et associatives. Observatoire local de la laïcité. Prix et festival annuel "Toulouse féministe". Jumelage avec une grande ville du Maghreb.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Égalité femmes-hommes</td>
+        <td class="pi-cell">Plan complet : permanence 24h/24, logements d'urgence, formation PM, mairie en partie civile, extension "Demandez Angela", plan VSS dans le sport, espaces de non-mixité choisie.</td>
+        <td class="br-cell">Toulouse ville référente lutte contre violences sexistes. Référents égalité dans tous les services. Formation systématique. Plan pratique féminine du sport. Budget sensible au genre. Prix "Toulouse féministe".</td>
+        <td class="mo-cell">Dispositif "Demandez Angela" existant. Descente à la demande dans les bus à partir de 22h. Engagement de ville exemplaire. Pas de nouvelles mesures structurantes annoncées.</td>
+      </tr>
+      <tr>
+        <td class="topic-cell">Laïcité</td>
+        <td class="pi-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+        <td class="br-cell">Observatoire local de la laïcité chargé d'accompagner les situations sensibles et de promouvoir la pédagogie de la loi de 1905. Formation des élus et des services.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+      <tr>
+        <td class="topic-cell">International</td>
+        <td class="pi-cell">Coopérations culturelles avec Ramallah et Kiev. Prise de position sur les conflits géopolitiques.</td>
+        <td class="br-cell">Jumelage avec une grande ville du Maghreb. Liens avec les villes jumelées dans un esprit d'échanges culturels, universitaires, économiques et de paix.</td>
+        <td class="mo-cell"><span class="absent">Non mentionné explicitement dans les éléments disponibles.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Sources : <a href="https://piquemal2026.fr/le-programme/" target="_blank">piquemal2026.fr</a> · <a href="https://vivremieuxtoulouse.fr/programme-en-bref/" target="_blank">vivremieuxtoulouse.fr</a> · <a href="https://moudenc2026.fr/programmes/" target="_blank">moudenc2026.fr</a></p>
+  <p style="margin-top:6px">Analyse réalisée le 13 mars 2026 à partir des programmes publiés en ligne. Le programme de Moudenc étant publié de façon fragmentée (sans document PDF global), certaines rubriques le concernant peuvent être incomplètes.</p>
+</footer>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>
